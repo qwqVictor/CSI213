@@ -1,0 +1,1 @@
+typeSearchIndex = [{"p":"<Unnamed>","l":"ADTBag"},{"p":"<Unnamed>","l":"ADTInterface"},{"l":"All Classes","url":"allclasses-index.html"},{"p":"<Unnamed>","l":"BagIndexOutOfBoundException"},{"p":"<Unnamed>","l":"EmptyADTBagException"},{"p":"<Unnamed>","l":"FullADTBagException"}]
