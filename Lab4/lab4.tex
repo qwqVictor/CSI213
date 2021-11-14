@@ -1,0 +1,194 @@
+
+\documentclass[12pt]{article}
+\usepackage{geometry}
+\geometry{letterpaper}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\usepackage{fontspec,xltxtra,xunicode}
+\defaultfontfeatures{Mapping=tex-text}
+\setromanfont[Mapping=tex-text]{Baskerville}
+\setsansfont[Scale=MatchLowercase,Mapping=tex-text]{Gill Sans}
+\setmonofont[Scale=MatchLowercase]{SF Mono}
+
+\title{CSI213 - Lab 4: Algorithm Analysis}
+\author{Huang Kaisheng <2020215138@stu.cqupt.edu.cn>}
+\date{\today}
+
+\begin{document}
+\newcommand\answer[1]{ \textbf{Answer: }\space $\mathrm{O}(#1)$ }
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+
+\section{A binary search of n elements.}
+\answer{\log n}
+
+A prerequisite of binary search is that the sequence should be  sorted. We assume that the sequence is ascending ordered.
+
+The algorithm always selects the middle element and divide the sequence into two parts. If the middle element is the target it returns, else it recursively runs itself on the left part or right part, chosen by comparing the target and the middle element. If less, it chooses the left part. If greater, it chooses the right part.
+
+Pseudo Code: 
+\begin{algorithm}
+\caption{Binary search}
+\begin{algorithmic}[1] 
+	\Require $ x \in a_n $
+	\Ensure $ a_n $ is ascending ordered.
+	\Procedure{Find}{$x$: integer, $l:=0, r:=n$: non-negative integers}
+	\State $i := \lfloor \frac{r}{2} \rfloor$
+	\If{$a_i = x$} \Return i
+	\ElsIf{$a_i < x$} \Return Find($x$, $0$, $i$)
+	\Else \space \Return Find($x$, $i + 1$, $n$)
+	\EndIf
+	\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+\section{A linear search to find the smallest number in a list of n numbers.}
+\answer{n}
+
+This algorithm visits every position to find the smallest one.
+
+Pseudo Code:
+\begin{algorithm}
+\caption{Find smallest number}
+\
+\begin{algorithmic}[1] 
+	\State $i := 1, m := a_0$ \Comment $m$ will be the smallest number
+	\While {$i < n$}
+		\State $ m := \min(m, a_i) $
+		\State $ i := i + 1 $
+	\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+\section{An algorithm that prints all bit strings of length n.}
+\answer{2^n}
+
+Each bit of an $n$-length bit string have two possible values: 0, 1.
+
+Pseudo Code:
+\begin{algorithm}
+\caption{Generate bit strings}
+\begin{algorithmic}[1]
+	\Procedure {GenBitString}{$n, i:=0, bitString:=0$: non-negative integers}
+		\If {$i = n$} 
+			\State \Call {Print}{bitString}
+		\Else
+			\State \Call {GenBitString}{$n, i + 1, (bitString \ll 1) | 1$} 
+			\State \Call {GenBitString}{$n, i + 1, bitString \ll 1$)}
+		\EndIf
+	\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\section{The number of print statements (Question \#4)}
+\answer{n}
+
+For each iteration of $i$, the inner loop variable $j$ increases from the last $j$ to $i$. On every iteration, $j$ is always equal to $i$. So it actually runs $n$ times.
+
+\section{The number of print statements (Question \#5)}
+\answer{\log n}
+
+The loop variable $n$ be a half of $n$ each time of iteration. So it can only run $\lfloor \log n \rfloor$ times.
+
+\section{An iterative algorithm to compute n!, (counting the number of multiplications).}
+\answer{n}
+
+It iterates from $1$ to $n$, $n$ times iterated.
+
+Pseudo Code:
+\begin{algorithm}
+\caption{Compute $n!$}
+\begin{algorithmic}[1] 
+	\State $i := 1, m := 1$ \Comment $m$ will be the $n!$
+	\While {$i \leq n$}
+		\State $ m := m \times i $
+		\State $ i := i + 1 $
+	\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+\section{An algorithm that finds the average of n numbers by adding them and dividing by n.}
+\answer{n}
+
+It just make a sum of the sequence and make a division.
+
+Pseudo Code:
+\begin{algorithm}
+\caption{Calculate average}
+\begin{algorithmic}[1]
+	\State $i := 0, sum := 0$
+	\While {$i < n$}
+		\State $ sum := sum + a_i $
+		\State $ i := i + 1 $
+	\EndWhile
+	\State $ avg := \frac{sum}{n}$
+\end{algorithmic}
+\end{algorithm}
+
+\section{An algorithm that prints all subsets of size three of the set {1, 2, 3, ..., n}.}
+\answer{n^3}
+
+The question can be converted to the solutions to choose three elements in $n$ elements. So the amount should be 
+$$\mathrm{C}_{n}^{3}=\frac{n!}{3!(n-3)!}=\frac{n(n-1)(n-2)}{3!}$$
+
+Pseudo Code:
+\begin{algorithm}
+\caption{Print three-size subsets}
+\begin{algorithmic}[1]
+	\State $ i := 0, j := i, k := j $
+	\While {$ i < n $}
+		\State $ j := i + 1 $
+		\While {$ j < n $}
+			\State $ k := j + 1 $
+			\While {$ k < n $}
+				\State \Call {Print}{$a_i, a_j, a_k$}
+				\State $ k := k + 1 $
+			\EndWhile
+			\State $ j := j + 1 $
+		\EndWhile
+		\State $ i := i + 1 $
+	\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+\section{The best-case analysis of a linear search of a list of size n (counting the number of comparisons).}
+\answer{1}
+
+For example, there is a list:
+
+$${a_n} = {1, 2, 3, 4, 5, 6, 7}$$
+
+And the wanted one is the first element $1$, so only 1 comparison is needed.
+
+\section{The worst-case analysis of a linear search of a list of size n (counting the number of comparisons).}
+\answer{n}
+
+For example, there is a list:
+
+$${a_n} = {1, 2, 3, 4, 5, 6, 7}$$
+
+And the wanted one is the last element $7$, so we have to compare for $n$ times.
+
+\section{Give a big-O estimate for the number of operations (Question \#11)}
+\answer{n^2}
+
+Inside the loop, $t + 2it$ will result in 3 operations (two multiplications and one addition) each iteration.
+
+About the loop, I have asked the TA. She says that I can assume that $i$ increases by 1 from $n$ to $n^2$. So it takes $n^2 - n$ operations.
+
+Therefore, this algorithm segment results in $(n^2 - n) \times 3$ operations totally.
+
+\section{Give a big-O estimate for the number of operations (Question \#12)}
+\answer{n^2}
+
+Inside the inner loop, $(it + jt + 1)^2$ will result in 5 operations (two multiplication between i, j and t, two addition and a multiplication for square) each iteration.
+
+The inner loop will execute $n$ times, and the outer loop will also execute $n$ times.
+
+In total, $5 \times n \times n$ operations will be result in.
+
+\end{document}  
